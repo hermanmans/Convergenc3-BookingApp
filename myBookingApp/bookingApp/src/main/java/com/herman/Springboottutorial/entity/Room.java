@@ -28,6 +28,7 @@ public class Room {
     private Long roomId;
     private String roomName;
     private String roomAddress;
+    private String roomDescription;
     private String roomCode;
     private String roomImage;
 

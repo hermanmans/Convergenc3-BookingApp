@@ -1,7 +1,10 @@
 import React,{useEffect,useState,Component} from 'react';
 import moment from 'moment';
 import Input from './common/input';
+import {Link, Routes, Route, useNavigate} from 'react-router-dom';
+import Logs from './rooms';
 const Joi = require('joi');
+
 
 class SelectDates extends Component {
     state = {
@@ -13,6 +16,7 @@ class SelectDates extends Component {
       message:"",
     } 
     
+
     handleSubmit = (e) => {
         e.preventDefault();
         const errors = this.validate();
@@ -22,14 +26,15 @@ class SelectDates extends Component {
         const {dates}=this.state;
         const startDate = moment(new Date(dates.startDate)).format("DD/MM/YYYY");
         const endDate = moment(new Date(dates.endDate)).format("DD/MM/YYYY");
-
+        
+        
         localStorage.setItem('startDate', JSON.stringify(startDate));
         localStorage.setItem('endDate', JSON.stringify(endDate));
         
         console.log(startDate);
         console.log(endDate);
-        window.location.replace('/rooms');    
-        }
+        // window.location.replace('/rooms');
+    }
 
     handleChange= e =>{
         const dates = {...this.state.dates};
@@ -57,6 +62,7 @@ class SelectDates extends Component {
         const {dates}=this.state;
         const {message}=this.state;
         const {errors}=this.state;
+        const myData = {...this.state.dates}
         return (
             <section className='datePicker'>
                 <h3>Please select your preferred dates</h3>
@@ -77,10 +83,18 @@ class SelectDates extends Component {
                     type="date"
                     error={errors.endDate} 
                 />
-                <button type="submit" className="btn btn-primary">Submit Dates</button>
+                
             </form>
             <h5>{this.state.message}</h5>
+            <h1>{console.log(this.state.dates)}</h1>
+            <h1><Link
+                    to='/rooms'
+                    state={myData}
+                    >
+                <button type="submit" className="btn btn-primary">Submit Dates</button>
+            </Link></h1>
             </section>
+            
         );
     }
 }

@@ -36,7 +36,7 @@ class App extends Component {
             <Route path="/login" exact element = {<Login />} />
             <Route path="/selectDates" exact element = {<SelectDates />} />
             <Route path="/updateBookings" exact element = {<Update />} />
-            <Route path="/submitted" exact element = {<Confirmed />} />
+            <Route path="/submitted/" exact element = {<Confirmed />} />
             <Route path="/userRefunds" exact element = {<UserRefunds />} />
         </Routes>
 

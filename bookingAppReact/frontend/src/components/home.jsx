@@ -1,12 +1,15 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import Selection from './common/select';
+import ConfirmAlert from './common/confirmAlert';
 
 function Home(){
     return(
         <section>
             <div>
                 <Selection/>
+                <ConfirmAlert
+                label="Confirm"/>
                 <h1>Welcome to Getaway Rooms</h1>
             </div>
             <div className='workForm'>

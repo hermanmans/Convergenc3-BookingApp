@@ -31,9 +31,7 @@ public class RefundServiceImpl implements RefundService{
         Date secondDate = booking.stringToDate(arrivalDate);
         Long timeToVisit = booking.dateDiff(firstDate, secondDate);
         refund.setTimeToVisit(timeToVisit);
-//        refund.setCurrentDate(currentDate);
 
-//        return refundRepository.save(refund);
         if(timeToVisit<2){
             refund.setRefundAmount(refund.getTotal()*0);
         } else if (timeToVisit>2 && timeToVisit<14) {

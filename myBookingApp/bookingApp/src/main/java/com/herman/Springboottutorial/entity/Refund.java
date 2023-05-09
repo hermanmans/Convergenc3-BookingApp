@@ -39,4 +39,5 @@ public class Refund {
 
     private Long timeToVisit;
     private double refundAmount;
+
 }

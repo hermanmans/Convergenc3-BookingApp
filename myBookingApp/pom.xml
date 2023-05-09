@@ -14,8 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
+        <module>bookingApp</module>
         <module>Oauth-authorization-server</module>
         <module>Oauth-resource-server</module>
-        <module>bookingApp</module>
     </modules>
 </project>

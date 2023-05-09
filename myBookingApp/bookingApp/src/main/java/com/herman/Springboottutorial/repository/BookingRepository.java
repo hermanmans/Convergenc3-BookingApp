@@ -8,5 +8,11 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking,Long> {
     List<Booking> findByUserRef(Long userRef);
+
+    Booking findByBookingKey(Long bookingKey);
+
+    List<Booking> findByStartDate(String startDate);
+
+    List<Booking> findByStartDateAndEndDate(String startDate, String endDate);
 }
 

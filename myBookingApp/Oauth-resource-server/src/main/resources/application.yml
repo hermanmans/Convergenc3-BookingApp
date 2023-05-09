@@ -5,6 +5,6 @@ server:
 spring:
   security:
     oauth2:
-      resource-server:
+      resourceserver:
         jwt:
           issuer-uri: http://auth-server:9000

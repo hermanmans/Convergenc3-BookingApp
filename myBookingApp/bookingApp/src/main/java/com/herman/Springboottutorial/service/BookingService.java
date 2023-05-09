@@ -23,6 +23,17 @@ public interface BookingService {
 
     List<Booking> fetchBookingsByUserId(Long userRef);
 
+    Booking cancelBooking(Long bookingKey, Booking booking);
+
+    Booking fetchUserTotal(Long bookingKey);
+
+    List <Booking> fetchStartDate(String startDate);
+
+    List<Booking> fetchDates(String startDate, String endDate) throws ParseException;
+
+    List<Booking> fetchBetween(String startDate, String endDate);
+
+
 //    Refund calculateRefund(Refund refund, Booking booking) throws ParseException;
 
 }

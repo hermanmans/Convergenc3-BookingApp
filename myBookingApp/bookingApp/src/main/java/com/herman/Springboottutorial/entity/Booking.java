@@ -33,8 +33,8 @@ public class Booking {
 
     private Long duration;
 
+    private String status;
     private float total;
-
     private Long userRef;
     private String roomSelected;
 

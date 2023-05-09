@@ -1,7 +1,6 @@
 package com.herman.Springboottutorial.service;
 
 import com.herman.Springboottutorial.entity.Booking;
-import com.herman.Springboottutorial.entity.User;
 import com.herman.Springboottutorial.repository.BookingRepository;
 import com.herman.Springboottutorial.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,32 +28,23 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.save(booking);
     }
 
-    public void saveUser(){
-        List<Booking> bookingsList = fetchBookingList();
-        User user = User.builder()
-                .userName("")
-                .userSurname("D")
-                .userEmail("Ja@gmail.com")
-                .password("12345678Aa!")
-                .idNumber("12345678")
-                .phoneNumber("1234567891")
-                .booking(bookingsList)
-                .build();
-        userRepository.save(user);
-    }
+
     @Override
     public Booking calculate(Booking booking) throws ParseException {
-//        booking.setStartDate(booking.getStartDate());
-//        booking.setEndDate(booking.getEndDate());
+
         Date firstDate = stringToDate(booking.getStartDate());
         Date secondDate = stringToDate(booking.getEndDate());
         long totalDays = dateDiff(firstDate, secondDate);
         booking.setDuration(totalDays);
         calculateRoomCost(booking);
-//        float totalCost = (totalDays) * (booking.getRoomRate());
-//        booking.setTotal(totalCost);
-//        booking.setUser_id((long)14);
-//        saveUser();
+        booking.setStatus("Confirmed");
+
+//        Date foundFirstDate = bookingRepository.findByStartDate(firstDate);
+//        System.out.println(foundFirstDate);
+//            System.out.println("EXISTS");
+//        }else{
+//            System.out.println("NO SUCH ENTRIES");
+//        };
         return bookingRepository.save(booking);
     }
 
@@ -92,6 +82,7 @@ public class BookingServiceImpl implements BookingService {
         calculate(bookingDB);
         return bookingRepository.save(bookingDB);
     }
+
     @Override
     public void deleteBookingById(Long bookingKey) {
         bookingRepository.deleteById(bookingKey);
@@ -114,27 +105,47 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findByUserRef(userRef);
     }
 
+    @Override
+    public Booking cancelBooking(Long bookingKey, Booking booking) {
+        Booking bookingDB = bookingRepository.findById(bookingKey).get();
+        if (Objects.nonNull(booking.getStatus()) && !"".equalsIgnoreCase(booking.getStatus())) {
+            bookingDB.setStatus(booking.getStatus());
+        }
+        return bookingRepository.save(bookingDB);
+    }
 
-//    @Override
-//    public Refund calculateRefund(Refund refund, Booking booking) throws ParseException {
-//        String arrivalDate = booking.getStartDate();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-//        String currentDate = formatter.format(LocalDate.now());
-//        Date firstDate = stringToDate(currentDate);
-//        Date secondDate = stringToDate(arrivalDate);
-//        Long timeToVisit = dateDiff(firstDate, secondDate);
-//        refund.setCurrentDate(currentDate);
-//        refund.setTimeToVisit(timeToVisit);
-//        return refundRepository.save(refund);
-//    }
-//        if(timeTillVisit<2){
-//            booking.setRefund(booking.getTotal()*0);
-//        } else if (timeTillVisit>2 && timeTillVisit<14) {
-//            booking.setRefund(booking.getTotal()*0.5);
-//        }else
-//            booking.setRefund(booking.getTotal()*0.8);
-//        return bookingRepository.save(booking);
-//    }
-//
-//
+    @Override
+    public Booking fetchUserTotal(Long bookingKey) {
+        return bookingRepository.findByBookingKey(bookingKey);
+    }
+
+    @Override
+    public List<Booking> fetchStartDate(String startDate) {
+       return bookingRepository.findByStartDate(convertToDate(startDate));
+    }
+
+    @Override
+    public List<Booking> fetchDates(String startDate, String endDate) throws ParseException {
+        Date convertedStart = stringToDate(convertToDate(startDate));//Startdate converted from 17052023 to 17/05 and string to date
+        Date convertedEnd = stringToDate(convertToDate(endDate));
+        if(convertedStart.getTime()<convertedEnd.getTime()){
+            System.out.println("Dates are available");
+        }
+        return bookingRepository.findByStartDateAndEndDate(convertToDate(startDate),convertToDate(endDate));
+    }
+
+    @Override
+    public List<Booking> fetchBetween(String startDate, String endDate) {
+        return null;
+    }
+
+    private String convertToDate(String date ){
+        StringBuilder sb = new StringBuilder(date);
+        sb.insert(2,"/");
+        sb.insert(5,"/");
+        return sb.toString();
+//        return startDate.substring(0,2)+"/"+startDate.substring(3,4)+"/"+startDate.substring(5,8);
+    }
 }
+
+

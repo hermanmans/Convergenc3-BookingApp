@@ -37,8 +37,12 @@ public class BookingController {
     }
 
     @GetMapping("/userDates/{userRef}")
-    public List<Booking>fetchBookingsByUserId(@PathVariable("userRef") Long userRef) {
+    public List<Booking> fetchBookingsByUserId(@PathVariable("userRef") Long userRef) {
         return bookingService.fetchBookingsByUserId(userRef);
+    }
+    @GetMapping("/userTotal/{bookingKey}")
+    public Booking fetchUserTotal(@PathVariable("bookingKey") Long bookingKey) {
+        return bookingService.fetchUserTotal(bookingKey);
     }
 
     @PutMapping("/bookingDates/{id}")
@@ -52,14 +56,25 @@ public class BookingController {
         bookingService.deleteBookingById(bookingKey);
     }
 
-//    @PutMapping("/refund/{id}")
-//    public Booking calculateRefund(@PathVariable("id")Long bookingKey,@RequestBody Booking booking) throws ParseException {
-//        bookingService.calculateRefund(bookingKey,booking);
-//        return bookingService.updateBooking(bookingKey, booking);
-//    }
-//    @PostMapping("/refund")
-//    public Refund calculateRefund(@RequestBody Refund refund, @RequestBody Booking booking) throws ParseException {
-//        System.out.println(booking.getStartDate());
-//        return bookingService.calculateRefund(refund, booking);
-//    }
+    @PutMapping("/bookingCancelled/{id}")
+    public Booking cancelBooking(@PathVariable("id") Long bookingKey, @RequestBody Booking booking) throws ParseException {
+        return bookingService.cancelBooking(bookingKey, booking);
+    }
+
+    @GetMapping("/findStart/{startDate}")
+    public List <Booking> fetchStartDate(@PathVariable("startDate")String startDate) {
+        return bookingService.fetchStartDate(startDate);
+    }
+    @GetMapping("/findStart/{startDate}/{endDate}")
+    public List <Booking> fetchDates(@PathVariable("startDate")String startDate,@PathVariable("endDate")String endDate) throws ParseException {
+        return bookingService.fetchDates(startDate,endDate);
+    }
+
+    @GetMapping("/findBetween/{startDate}/{endDate}")
+    public List <Booking> fetchBetween(@PathVariable("startDate")String startDate,@PathVariable("endDate")String endDate) throws ParseException {
+        return bookingService.fetchBetween(startDate,endDate);
+    }
+
 }
+
+

@@ -46,9 +46,16 @@ function UserBookings() {
         console.log(item);
         localStorage.setItem('deletedBooking', JSON.stringify(item));
         try {
-          const response = await fetch(`http://localhost:8080/bookingDates/${key}`, {
-            method: 'DELETE',////Deleting User
-          });
+            const response =await fetch(`http://localhost:8080/bookingCancelled/${key}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    status: "Cancelled",
+                })
+            });
+        //   const response = await fetch(`http://localhost:8080/bookingDates/${key}`, {
+        //     method: 'DELETE',////Deleting User
+        //   });
           ////Posting User to refund table
           const getDeletedUser = JSON.parse(localStorage.getItem('deletedBooking'));
           console.log(getDeletedUser.bookingKey);
@@ -120,7 +127,9 @@ function UserBookings() {
                             <th>Update Booking</th>
                             <th>Cancel Booking</th> 
                         </tr> 
-                    {React.Children.toArray(items.map((item,key,prevstart,prevend) => (
+                    {React.Children.toArray(items.map((item,key,prevstart,prevend) => {
+                        if(item.status==="Confirmed"){
+                            return(
                         <tr className="alert alert-info " role="alert">
                             <td>{item.userRef}</td>
                             <td>{item.startDate}</td>
@@ -134,7 +143,8 @@ function UserBookings() {
                             <td><button onClick={event =>handleDelete(item.bookingKey,item) }key={key} item={item}>Cancel Booking</button></td>
                             
                         </tr>
-                        ))
+                        )}
+                    })
                     )}
                     </tbody>
                     </table>

@@ -7,6 +7,7 @@ import com.herman.Springboottutorial.repository.BookingRepository;
 import com.herman.Springboottutorial.repository.UserRepository;
 import com.herman.Springboottutorial.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
@@ -21,15 +22,15 @@ public class UserServiceImpl implements UserService {
     private VerificationTokenRepository verificationTokenRepository;
     @Autowired
     private BookingRepository bookingRepository;
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public User registerUser(UserModel userModel) {
         var user = new User();
         user.setUserName(userModel.getUserName());
         user.setUserSurname(userModel.getUserSurname());
         user.setUserEmail(userModel.getUserEmail());
-        user.setPassword((userModel.getPassword()));
+        user.setPassword(passwordEncoder.encode((userModel.getPassword())));
         user.setPhoneNumber(userModel.getPhoneNumber());
         user.setIdNumber(userModel.getIdNumber());
         user.setUserRole("USER");
