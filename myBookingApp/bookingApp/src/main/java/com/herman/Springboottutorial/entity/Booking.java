@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -26,10 +28,10 @@ public class Booking {
             generator ="booking_sequence"
     )
     private Long bookingKey;
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
 
-    private String startDate;
-
-    private String endDate;
+    private Date endDate;
 
     private Long duration;
 

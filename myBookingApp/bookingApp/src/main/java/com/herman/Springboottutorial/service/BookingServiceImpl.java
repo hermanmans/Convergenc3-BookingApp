@@ -32,8 +32,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking calculate(Booking booking) throws ParseException {
 
-        Date firstDate = stringToDate(booking.getStartDate());
-        Date secondDate = stringToDate(booking.getEndDate());
+        Date firstDate = booking.getStartDate();
+        Date secondDate = booking.getEndDate();
         long totalDays = dateDiff(firstDate, secondDate);
         booking.setDuration(totalDays);
         calculateRoomCost(booking);
@@ -71,10 +71,10 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking updateBooking(Long bookingKey, Booking booking) throws ParseException {
         Booking bookingDB = bookingRepository.findById(bookingKey).get();
-        if (Objects.nonNull(booking.getStartDate()) && !"".equalsIgnoreCase(booking.getStartDate())) {
+        if (Objects.nonNull(booking.getStartDate())) {
             bookingDB.setStartDate(booking.getStartDate());
         }
-        if (Objects.nonNull(booking.getEndDate()) && !"".equalsIgnoreCase(booking.getEndDate())) {
+        if (Objects.nonNull(booking.getEndDate())) {
             bookingDB.setEndDate(booking.getEndDate());
         }
         bookingDB.setDuration(booking.getDuration());
@@ -134,11 +134,19 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findByStartDateAndEndDate(convertToDate(startDate),convertToDate(endDate));
     }
 
-    @Override
-    public List<Booking> fetchBetween(String startDate, String endDate) {
-        return null;
-    }
-
+//    @Override
+//    public List<Booking> fetchBetween(String startDate,String endDate,String roomSelected) {
+//        List<Booking> onStartDate = bookingRepository.findByStartDate(startDate);
+//        return bookingRepository.findByStartDateLessThanEqualAndEndDateGreaterThanAndRoomSelected(convertToDate(startDate),convertToDate(endDate),roomSelected);
+//    }
+@Override
+public List<Booking> fetchBetween(String startDate,String startDuplicate,String roomSelected) throws ParseException {
+        Date convertStart = stringToDate(convertToDate(startDate));
+        Date convertDuplicate = stringToDate(convertToDate(startDuplicate));
+        System.out.println(convertStart);
+        System.out.println(convertDuplicate);
+        return bookingRepository.findByStartDateLessThanEqualAndEndDateGreaterThanAndRoomSelected(convertStart,convertDuplicate,roomSelected);
+}
     private String convertToDate(String date ){
         StringBuilder sb = new StringBuilder(date);
         sb.insert(2,"/");
@@ -146,6 +154,7 @@ public class BookingServiceImpl implements BookingService {
         return sb.toString();
 //        return startDate.substring(0,2)+"/"+startDate.substring(3,4)+"/"+startDate.substring(5,8);
     }
+
 }
 
 

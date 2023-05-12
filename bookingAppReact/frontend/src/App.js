@@ -45,9 +45,6 @@ class App extends Component {
     </Router>
   );
 }
-componentDidMount() {
-  const promise = axios.get('http://localhost:8080/bookingDates');
-  console.log(promise);
-}
+
 }
 export default App;

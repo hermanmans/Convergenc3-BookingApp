@@ -103,6 +103,25 @@ class Register extends Component {
         account[e.currentTarget.name] = e.currentTarget.value;
         this.setState({account:account});
     }
+    async login() {
+        const {account}=this.state;
+        try{
+            const response = await fetch(`http://localhost:8080/login/${account.password}/${account.userEmail}`);
+            const data = await response.json();
+            if(data.userEmail === this.state.account.userEmail && data.password === this.state.account.password ){
+                this.setState({message:"Success"});
+                console.log("Success");
+                localStorage.setItem('users', JSON.stringify([data.entryId,account.userEmail]));
+                window.location.replace("http://auth-server:9000/login");
+           }else{
+              return this.setState({message:"Invalid Email or Password!"});
+           }
+            
+        }catch(e) {
+            console.log(e);
+            throw new Error("Invalid Email or Password!");
+        }
+    };
     render() { 
         const {account}=this.state;
         const {errors}=this.state; //object destructuring
@@ -113,7 +132,8 @@ class Register extends Component {
             </div>
             <div className='workForm'>
                 <div>
-                    <button><NavLink to='/login' className="nav-item nav-link">Login</NavLink></button>
+                    {/* <button onClick={this.login}>Login</button> */}
+                    <button><NavLink to='http://auth-server:9000/login' className="nav-item nav-link">Login</NavLink></button>
                     <button><NavLink to='/' className="nav-item nav-link">Register</NavLink></button>
                 </div>
             </div>

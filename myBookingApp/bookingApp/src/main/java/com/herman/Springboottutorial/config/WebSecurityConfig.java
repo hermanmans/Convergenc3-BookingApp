@@ -18,6 +18,15 @@ public class WebSecurityConfig {
             "/resendVerifyToken/**",
             "/bookingDates/**",
             "/rooms/**",
+            "/findStart/**",
+            "/findBetween/**",
+//            "/login/**",
+            "/userBookings/**",
+            "/selectDates/**",
+            "/submitted/**",
+            "/userTotal/**",
+            "/localhost:3000/**",
+            "/localhost:4000/**",
     };
 
     @Bean
@@ -40,4 +49,15 @@ public class WebSecurityConfig {
 
         return http.build();
     }
+
+//    @Bean
+//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
+//        http
+//                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(WHITE_LIST_URLS).permitAll().requestMatchers("/api/**").authenticated())
+//                .formLogin(Customizer.withDefaults());
+//
+//        return http.build();
+//
+//    }
 }

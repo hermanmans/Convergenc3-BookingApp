@@ -18,7 +18,7 @@ class Login extends Component {
         const {account}=this.state;
         // GET request using fetch with async/await
         try{
-            const response = await fetch(`http://localhost:8080/login/${account.password}/${account.userEmail}`);
+            const response = await fetch(`http://localhost:8080/api/login/${account.password}/${account.userEmail}`);
             const data = await response.json();
             console.log(data);
              if(data.userEmail === this.state.account.userEmail && data.password === this.state.account.password ){
@@ -31,7 +31,7 @@ class Login extends Component {
             }
         }catch(e) {
             console.log(e);
-            // throw new Error("Invalid Email or Password!");
+            throw new Error("Invalid Email or Password!");
         }
     };
             

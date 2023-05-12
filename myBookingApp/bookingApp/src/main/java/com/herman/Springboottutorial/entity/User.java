@@ -13,12 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(
-        name = "tbl_user",
-        uniqueConstraints =@UniqueConstraint(
-                name = "userEmail_unique",
-                columnNames = "email"
-        ) )
 public class User {
     @Id
     @SequenceGenerator(
@@ -38,7 +32,8 @@ public class User {
     private String userSurname;
     @Column(
             name = "email",
-            nullable = false
+            nullable = false,
+            unique=true
     )
     private String userEmail;
     @Column(length = 60)

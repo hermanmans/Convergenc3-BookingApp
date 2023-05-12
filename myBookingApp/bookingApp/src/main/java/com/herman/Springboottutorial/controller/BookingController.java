@@ -70,11 +70,15 @@ public class BookingController {
         return bookingService.fetchDates(startDate,endDate);
     }
 
-    @GetMapping("/findBetween/{startDate}/{endDate}")
-    public List <Booking> fetchBetween(@PathVariable("startDate")String startDate,@PathVariable("endDate")String endDate) throws ParseException {
-        return bookingService.fetchBetween(startDate,endDate);
-    }
+//    @GetMapping("/findBetween/{startDate}/{endDate}/{roomSelected}")
+//    public List <Booking> fetchBetween(@PathVariable("startDate")String startDate,@PathVariable("endDate")String endDate,@PathVariable("roomSelected")String roomSelected) throws ParseException {
+//        return bookingService.fetchBetween(startDate, endDate,roomSelected);
+//    }
 
+        @GetMapping("/findBetween/{startDate}/{roomSelected}")
+    public List <Booking> fetchBetween(@PathVariable("startDate") String startDate, @PathVariable("startDate")String startDuplicate, @PathVariable("roomSelected")String roomSelected) throws ParseException {
+        return bookingService.fetchBetween(startDate,startDuplicate,roomSelected);
+    }
 }
 
 

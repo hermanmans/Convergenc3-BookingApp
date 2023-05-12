@@ -31,7 +31,8 @@ public interface BookingService {
 
     List<Booking> fetchDates(String startDate, String endDate) throws ParseException;
 
-    List<Booking> fetchBetween(String startDate, String endDate);
+//    List<Booking> fetchBetween(String startDate,String endDate,String roomSelected);
+    List<Booking> fetchBetween(String startDate, String startDuplicate, String roomSelected) throws ParseException;
 
 
 //    Refund calculateRefund(Refund refund, Booking booking) throws ParseException;

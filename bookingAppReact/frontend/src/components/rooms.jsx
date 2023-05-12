@@ -27,6 +27,7 @@ function Logs() {
     const [itemRooms, setRooms] = useState([]);
     const [booking, setBooking] = useState([]);
     const [items, setItems] = useState([]);
+    const [avail, setAvail] = useState([]);
     const [message, setMessage] = useState("");
     const currentUser = JSON.parse(localStorage.getItem('users'))[0];
     const[bookingNumber,setNumber]=useState("");
@@ -67,11 +68,39 @@ function Logs() {
             console.error("No results found");
         };
     };
+    const fetchRoomAvailability = async (date,room) => {
+        try{
+            const data = await fetch(`http://localhost:8080/findBetween/${date}/${room}`)//retrieving data
+            const avail = await data.json();// data as JSON
+            setAvail(avail);
+            console.log(avail);
+            // const bookingNumber = (items.slice(-1)[0].bookingKey);
+            // setNumber(bookingNumber);
+            if(avail.length>0){
+                console.log("Booking dates not available!");
+            }else{
+                return console.log("Available");
+            }
+            
+            if (!data.ok) {
+                throw new Error(`Error! status: ${data.status}`);
+              }
+
+        } catch (err) {
+            console.error("Something went wrong");
+            console.error(err);
+      }
     
+    };
     const handleClick = (event, key) => {
         const currentUser = JSON.parse(localStorage.getItem('users'))[0];
         const testStart =moment(new Date(selection.startDate)).format("DD/MM/YYYY");
         const testEnd = moment(new Date(selection.endDate)).format("DD/MM/YYYY");
+        fetchRoomAvailability("05052023",key);
+        fetchRoomAvailability("07052023",key);
+    
+        // fetchRoomAvailability(selection.startDate,key);
+        // fetchRoomAvailability(selection.endDate,key);
 
 
         fetch('http://localhost:8080/bookingDates',{
@@ -114,9 +143,9 @@ function Logs() {
                                     <td><img src={item.roomImage} alt='img' width={300}></img></td>
                                     <td>R {booking.total}</td>
                                     <td><button className="btn btn-primary mb-5" onClick={event => handleClick(event,item.roomName)} key={key} >Confirm Room</button></td>
-                                    <ConfirmAlert
+                                    {/* <ConfirmAlert
                                      myFunc={fetchTotal}
-                                    />
+                                    /> */}
                                  </tr>
                                  <tr>
                                     <div>

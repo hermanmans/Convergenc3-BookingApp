@@ -2,7 +2,6 @@ package com.herman.Oauthauthorizationserver.service;
 
 import com.herman.Oauthauthorizationserver.entity.User;
 import com.herman.Oauthauthorizationserver.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,15 +21,18 @@ import java.util.List;
 @Service
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
+
     @Autowired
     private UserRepository userRepository;
+
     @Bean
-    private PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(11);
-    };
+    }
+
     @Override
-    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByUserEmail(userEmail);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByUserEmail((email));
         if(user == null) {
             throw  new UsernameNotFoundException("No User Found");
         }
@@ -43,6 +46,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 getAuthorities(List.of(user.getUserRole()))
         );
     }
+
     private Collection<? extends GrantedAuthority> getAuthorities(List<String> roles) {
         List<GrantedAuthority>  authorities = new ArrayList<>();
         for(String role: roles) {
@@ -50,5 +54,5 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return authorities;
     }
-
 }
+
