@@ -70,7 +70,7 @@ class Register extends Component {
         const {account}=this.state;
 
             
-            fetch('http://localhost:8080/register',{
+            fetch('http://localhost:8080/api/register',{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body: JSON.stringify({
@@ -122,6 +122,11 @@ class Register extends Component {
             throw new Error("Invalid Email or Password!");
         }
     };
+    getCurrentUser = async () => {
+        const dataUser = await axios.get('http://127.0.0.1:8080/api/login');//retrieving data
+        const currentUserTest = dataUser.data;
+        console.log(currentUserTest);
+    };
     render() { 
         const {account}=this.state;
         const {errors}=this.state; //object destructuring
@@ -133,7 +138,8 @@ class Register extends Component {
             <div className='workForm'>
                 <div>
                     {/* <button onClick={this.login}>Login</button> */}
-                    <button><NavLink to='http://auth-server:9000/login' className="nav-item nav-link">Login</NavLink></button>
+                    {/* <button><NavLink to='http://127.0.0.1:8080/api/login' className="nav-item nav-link">Login</NavLink></button> */}
+                    <button><NavLink onClick={this.getCurrentUser} className="nav-item nav-link">Login</NavLink></button>
                     <button><NavLink to='/' className="nav-item nav-link">Register</NavLink></button>
                 </div>
             </div>

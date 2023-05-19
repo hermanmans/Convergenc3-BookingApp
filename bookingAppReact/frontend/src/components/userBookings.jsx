@@ -21,7 +21,8 @@ function UserBookings() {
 
     const [items, setItems] = useState([]);
     const [message, setMessage] = useState("");
-    const currentUser = JSON.parse(localStorage.getItem('users'))[0];
+    // const currentUser = JSON.parse(localStorage.getItem('users'))[0];
+    const currentUser = "5";
     ///copied from rooms 
     const fetchItems = async () => {
         try{

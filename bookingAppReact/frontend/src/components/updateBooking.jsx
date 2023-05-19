@@ -18,7 +18,7 @@ class Update extends Component {
     }
 
     fetchItems = async () => {
-        const dataRooms = await fetch('http://localhost:8080/rooms')//retrieving data
+        const dataRooms = await fetch('http://localhost:8080/api/rooms')//retrieving data
         const itemRooms = await dataRooms.json();// data as JSON
         console.log(itemRooms);
         this.setState({itemRooms:itemRooms}); //setting data

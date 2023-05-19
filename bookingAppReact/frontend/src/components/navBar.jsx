@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState,Component} from 'react';
 import {Link,NavLink} from 'react-router-dom';
 
 const NavBar = () => {
@@ -22,7 +22,7 @@ const NavBar = () => {
           <div className="navbar-nav">
             <NavLink className="nav-item nav-link" to="/selectDates">
               Book a room
-            </NavLink>
+              </NavLink>
             <NavLink className="nav-item nav-link" to="/userBookings">
               My Bookings
             </NavLink>
